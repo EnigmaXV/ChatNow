@@ -6,6 +6,7 @@ const messageRoutes = require("./routes/messageRoutes");
 const path = require("path");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
+const cloudinary = require("cloudinary").v2;
 
 require("dotenv").config();
 
@@ -15,6 +16,12 @@ app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(express.static(path.resolve(__dirname, "./public")));
 
+//cloudinary configuration
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 //routes
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/message", messageRoutes);
