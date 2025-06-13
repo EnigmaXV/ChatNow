@@ -1,8 +1,9 @@
-const { StatusCodes } = require("../constants");
+const { StatusCodes } = require("http-status-codes");
 const jwt = require("jsonwebtoken");
 
 const protect = async (req, res, next) => {
-  const { token } = req.cookies;
+  const token = req.cookies["auth-token"];
+
   if (!token) {
     return res
       .status(StatusCodes.UNAUTHORIZED)
