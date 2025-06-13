@@ -85,8 +85,8 @@ const updateProfile = async (req, res) => {
     user.email = email || user.email;
 
     if (req.file) {
-      const res = await cloudinary.uploader.upload(req.file.path);
-      user.profilePicture = res.secure_url;
+      const uploadRes = await cloudinary.uploader.upload(req.file.path);
+      user.profilePicture = uploadRes.secure_url;
     }
     await user.save();
     res.status(StatusCodes.OK).json({
