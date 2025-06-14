@@ -1,4 +1,4 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: synthwave;
+  themes: black, night, cyberpunk, lofi, halloween, synthwave;
 }
