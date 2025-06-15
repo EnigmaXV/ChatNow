@@ -3,6 +3,7 @@ const { StatusCodes } = require("http-status-codes");
 const generateCookies = require("../utils/generateCookies");
 const cloudinary = require("cloudinary").v2;
 const fs = require("fs");
+const { create } = require("../models/messageModel");
 
 const register = async (req, res) => {
   try {
@@ -27,6 +28,7 @@ const register = async (req, res) => {
         name: user.name,
         email: user.email,
         profilePicture: user.profilePicture,
+        createdAt: user.createdAt,
       },
     });
   } catch (err) {
@@ -62,6 +64,7 @@ const login = async (req, res) => {
         name: user.name,
         email: user.email,
         profilePicture: user.profilePicture,
+        createdAt: user.createdAt,
       },
     });
   } catch (err) {
@@ -104,6 +107,8 @@ const updateProfile = async (req, res) => {
         name: user.name,
         email: user.email,
         profilePicture: user.profilePicture,
+        createdAt: user.createdAt,
+        updateProfiledAt: user.updatedAt,
       },
     });
   } catch (err) {
