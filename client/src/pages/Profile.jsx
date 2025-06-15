@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { Camera, Mail, User } from "lucide-react";
 import img from "../assets/big-user-pic.png";
+import dayjs from "dayjs";
 
 const Profile = () => {
   const { user, isLoading, updateProfile } = useAuthStore();
@@ -10,6 +11,7 @@ const Profile = () => {
     name: user?.user?.name || "",
     email: user?.user?.email || "",
     profilePicture: user?.user?.profilePicture || "",
+    createdAt: user?.user?.createdAt || "",
   });
   const [errors, setErrors] = useState({});
 
@@ -30,7 +32,9 @@ const Profile = () => {
     }
   };
 
-  console.log(formData);
+  const transformDate = (date) => {
+    return dayjs(date).format("MMMM D, YYYY");
+  };
 
   const profileImageUrl =
     formData.profilePicture instanceof File
@@ -65,7 +69,10 @@ const Profile = () => {
                 )}
               </div>
               <h2 className="text-2xl font-bold mt-4">{formData.name}</h2>
-              <p className="text-gray-600">{formData.email}</p>
+
+              <span className="text-sm text-gray-500 mt-1">
+                Member since {transformDate(formData.createdAt)}
+              </span>
             </div>
 
             {errors.submit && (
