@@ -7,6 +7,7 @@ import HomeLayout from "./pages/HomeLayout";
 import Profile from "./pages/Profile";
 import { useAuthStore } from "./store/useAuthStore";
 import { useEffect } from "react";
+import ChatContainer from "./pages/ChatContainer";
 function App() {
   const { isAuthenticated, loadUser, user, isLoading } = useAuthStore();
   useEffect(() => {
@@ -35,7 +36,11 @@ function App() {
           path="/home"
           element={isAuthenticated ? <HomeLayout /> : <Login />}
         >
-          <Route path="chat" element={<h1>Chat Page</h1>} />
+          <Route
+            path="chat"
+            index
+            element={isAuthenticated ? <ChatContainer /> : <Login />}
+          />
           <Route
             path="profile"
             element={isAuthenticated ? <Profile /> : <Login />}
