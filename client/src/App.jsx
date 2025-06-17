@@ -6,10 +6,22 @@ import { Toaster } from "react-hot-toast";
 import HomeLayout from "./pages/HomeLayout";
 import Profile from "./pages/Profile";
 import { useAuthStore } from "./store/useAuthStore";
-
+import { useEffect } from "react";
 function App() {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, loadUser, user, isLoading } = useAuthStore();
+  useEffect(() => {
+    loadUser();
+  }, []);
 
+  console.log("User:", user);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center">
+        <span className="loading loading-spinner text-primary" />
+      </div>
+    );
+  }
   return (
     <div>
       <Routes>

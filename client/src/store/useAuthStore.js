@@ -12,7 +12,7 @@ export const useAuthStore = create((set) => ({
     try {
       const res = await axiosInstance.post("/user/register", formData);
       set({
-        user: res.data,
+        user: res.data.user,
         isAuthenticated: true,
         isLoading: false,
       });
@@ -30,7 +30,7 @@ export const useAuthStore = create((set) => ({
     try {
       const res = await axiosInstance.post("/user/login", formData);
       set({
-        user: res.data,
+        user: res.data.user,
         isAuthenticated: true,
         isLoading: false,
       });
@@ -70,7 +70,7 @@ export const useAuthStore = create((set) => ({
         },
       });
       set({
-        user: res.data,
+        user: res.data.user,
         isLoading: false,
       });
       toast.success("Profile updated successfully!");
@@ -79,6 +79,24 @@ export const useAuthStore = create((set) => ({
       set({ isLoading: false });
       toast.error(
         err.response?.data?.error || "Profile update failed. Please try again."
+      );
+    }
+  },
+  loadUser: async () => {
+    try {
+      set({ isLoading: true });
+      const res = await axiosInstance.get("/user/me");
+      set({
+        user: res.data.currentUser,
+        isAuthenticated: true,
+        isLoading: false,
+      });
+    } catch (err) {
+      console.error("load user error:", err);
+      set({ isLoading: false });
+      toast.error(
+        err.response?.data?.error ||
+          "Can't load the current user please try to login"
       );
     }
   },

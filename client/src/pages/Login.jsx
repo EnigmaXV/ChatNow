@@ -57,7 +57,7 @@ const Login = () => {
     try {
       await login(formData);
       // Navigate to home page after successful login
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       // Handle login error
       setErrors({

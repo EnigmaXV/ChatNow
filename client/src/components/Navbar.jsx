@@ -8,7 +8,7 @@ import ThemeController from "./ThemeController";
 const Navbar = () => {
   const { isAuthenticated, logout, user } = useAuthStore();
   const navigate = useNavigate();
-  const avatar = user?.user?.profilePicture || img;
+  const avatar = user?.profilePicture || img;
 
   const handleLogout = async () => {
     try {
@@ -21,14 +21,12 @@ const Navbar = () => {
 
   return (
     <div className="navbar bg-base-100 shadow-lg px-4">
-      {/* Left */}
       <div className="navbar-start">
         <Link to="/" className="btn btn-ghost normal-case text-xl">
           ChatNow
         </Link>
       </div>
 
-      {/* Center: Nav links in a row */}
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 gap-4">
           <li>
