@@ -8,10 +8,10 @@ const Profile = () => {
   const { user, isLoading, updateProfile } = useAuthStore();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    name: user?.user?.name || "",
-    email: user?.user?.email || "",
-    profilePicture: user?.user?.profilePicture || "",
-    createdAt: user?.user?.createdAt || "",
+    name: user?.name || "",
+    email: user?.email || "",
+    profilePicture: user?.profilePicture || "",
+    createdAt: user?.createdAt || "",
   });
   const [errors, setErrors] = useState({});
 

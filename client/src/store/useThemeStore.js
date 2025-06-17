@@ -1,7 +1,8 @@
 import { create } from "zustand";
 const getThemeFromLocalStorage = () => {
-  const stored = localStorage.getItem("theme");
-  return stored || "black";
+  const stored = localStorage.getItem("theme") || "black";
+  document.documentElement.setAttribute("data-theme", stored);
+  return stored;
 };
 
 export const useThemeStore = create((set) => ({
