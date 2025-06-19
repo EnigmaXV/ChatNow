@@ -14,8 +14,6 @@ function App() {
     loadUser();
   }, []);
 
-  console.log("User:", user);
-
   if (isLoading) {
     return (
       <div className="min-h-screen flex justify-center items-center">

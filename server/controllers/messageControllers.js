@@ -27,6 +27,8 @@ const sendMessage = async (req, res) => {
         receiver: message.receiver,
         content: message.content,
         image: message.image,
+        createdAt: message.createdAt,
+        updatedAt: message.updatedAt,
       },
     });
   } catch (err) {
