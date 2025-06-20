@@ -23,4 +23,21 @@ export const useChatStore = create((set) => ({
       console.error("Error fetching messages:", err);
     }
   },
+  sendMessage: async (receiverId, content, image) => {
+    try {
+      const formData = new FormData();
+      formData.append("content", content);
+      if (image) {
+        formData.append("image", image);
+      }
+      const res = await axiosInstance.post(
+        `/message/send/${receiverId}`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      set((state) => ({ messages: [...state.messages, res.data.message] }));
+    } catch (err) {
+      console.error("Error sending message:", err);
+    }
+  },
 }));
