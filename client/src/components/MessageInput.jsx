@@ -1,18 +1,20 @@
 import React, { useRef, useState } from "react";
 import { ImagePlus, Send, X } from "lucide-react";
+import { useChatStore } from "../store/useChatStore";
 
-const MessageInput = ({ onSend }) => {
-  const [message, setMessage] = useState("");
+const MessageInput = ({ selectedUser }) => {
+  const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
   const fileInputRef = useRef(null);
+  const { sendMessage } = useChatStore();
 
   const imagePreview = image ? URL.createObjectURL(image) : null;
 
   const handleSend = (e) => {
     e.preventDefault();
-    if (!message && !image) return;
-    if (onSend) onSend({ message, image });
-    setMessage("");
+    if (!content && !image) return;
+    sendMessage(selectedUser._id, content, image);
+    setContent("");
     setImage(null);
   };
 
@@ -63,8 +65,8 @@ const MessageInput = ({ onSend }) => {
         <input
           type="text"
           placeholder="Type a message..."
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
           className="input flex-1"
         />
         <button type="submit" className="btn px-4">

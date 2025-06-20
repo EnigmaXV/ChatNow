@@ -30,15 +30,12 @@ function App() {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route
-          path="/home"
-          element={isAuthenticated ? <HomeLayout /> : <Login />}
-        >
+        <Route path="/" element={isAuthenticated ? <HomeLayout /> : <Login />}>
           <Route
-            path="chat"
             index
             element={isAuthenticated ? <ChatContainer /> : <Login />}
           />
+
           <Route
             path="profile"
             element={isAuthenticated ? <Profile /> : <Login />}

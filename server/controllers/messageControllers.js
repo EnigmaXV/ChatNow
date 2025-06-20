@@ -2,6 +2,7 @@ const Message = require("../models/messageModel");
 const { StatusCodes } = require("http-status-codes");
 const cloudinary = require("cloudinary").v2;
 const User = require("../models/userModel");
+const fs = require("fs");
 
 const sendMessage = async (req, res) => {
   try {
@@ -17,6 +18,7 @@ const sendMessage = async (req, res) => {
     if (req.file) {
       const uploadRes = await cloudinary.uploader.upload(req.file.path);
       message.image = uploadRes.secure_url;
+      fs.unlinkSync(req.file.path);
     }
     await message.save();
     res.status(StatusCodes.CREATED).json({
