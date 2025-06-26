@@ -1,5 +1,5 @@
 const express = require("express");
-const app = express();
+const { app, server } = require("./utils/socket");
 const connectToMongoDB = require("./database/connectToMongoDB");
 const userRoutes = require("./routes/userRoutes");
 const messageRoutes = require("./routes/messageRoutes");
@@ -35,7 +35,7 @@ const startServer = async () => {
   );
   try {
     await connectToMongoDB(url);
-    app.listen(port, () => {
+    server.listen(port, () => {
       console.log(chalk.blue("✅ Connected to MongoDB successfully!"));
       console.log(chalk.yellow(`✅ Server is running on port ${port} `));
     });
