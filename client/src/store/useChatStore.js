@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { axiosInstance } from "../utils/axiosInstance";
+import { useAuthStore } from "./useAuthStore";
 
 export const useChatStore = create((set) => ({
   users: [],
@@ -39,5 +40,18 @@ export const useChatStore = create((set) => ({
     } catch (err) {
       console.error("Error sending message:", err);
     }
+  },
+  subscribeToMessages: () => {
+    const socket = useAuthStore.getState().socket;
+    socket.on("newMessage", (data) => {
+      console.log("New message received:", data.message);
+      set((state) => ({
+        messages: [...state.messages, data.message],
+      }));
+    });
+  },
+  unsubscribeFromMessages: () => {
+    const socket = useAuthStore.getState().socket;
+    socket.off("newMessage");
   },
 }));

@@ -4,34 +4,60 @@ import userPic from "../assets/small-user-pic.png";
 import MessageInput from "../components/MessageInput";
 import Sidebar from "../components/Sidebar";
 import { useChatStore } from "../store/useChatStore";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import dayjs from "dayjs";
 import { MessageCircle, Users, Sparkles } from "lucide-react";
 
 const ChatApp = () => {
-  const { users, getUsers, getMessages, messages } = useChatStore();
-  const { user } = useAuthStore();
+  const {
+    users,
+    getUsers,
+    getMessages,
+    messages,
+    subscribeToMessages,
+    unsubscribeFromMessages,
+  } = useChatStore();
+
+  const { user, onlineUsers } = useAuthStore();
   const [selectedUser, setSelectedUser] = useState(null);
+  const scrollRef = useRef(null);
   useEffect(() => {
     getUsers();
 
     getMessages(selectedUser?._id);
-  }, [selectedUser]);
-  console.log("current active user:", user);
+    subscribeToMessages();
 
-  console.log("messages:", messages);
-  console.log("selectedUser:", selectedUser);
+    return () => {
+      unsubscribeFromMessages();
+    };
+  }, [selectedUser]);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  }, [messages]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-200 text-base-content">
       <div className="w-full max-w-6xl h-[800px] flex rounded-lg shadow-lg overflow-hidden bg-base-100">
-        <Sidebar users={users} onSetSelectedUser={setSelectedUser} />
+        <Sidebar
+          users={users}
+          selectedUser={selectedUser}
+          onSetSelectedUser={setSelectedUser}
+        />
         {/* Chat Panel */}
         <div className="w-2/3 flex flex-col">
           {/* Header */}
           <div className="flex items-center gap-3 border-b border-base-300 p-4">
-            <div className="avatar">
+            <div
+              className={`avatar ${
+                onlineUsers.includes(selectedUser?._id) ? "avatar-online" : ""
+              } `}
+            >
               <div className="w-10 rounded-full">
                 <img
                   src={selectedUser?.profilePicture || userPic}
@@ -41,7 +67,9 @@ const ChatApp = () => {
             </div>
             <div>
               <div className="font-semibold">{selectedUser?.name || ""}</div>
-              <div className="text-xs text-base-content/50">Offline</div>
+              <div className="text-xs text-base-content/50">
+                {onlineUsers.includes(selectedUser?._id) ? "Online" : "Offline"}
+              </div>
             </div>
           </div>
 
@@ -118,12 +146,13 @@ const ChatApp = () => {
                   <div
                     className={`chat ${isMe ? "chat-end" : "chat-start"}`}
                     key={i}
+                    ref={scrollRef}
                   >
                     {/* Avatar */}
-                    <div className="chat-image avatar self-end">
+                    <div className="chat-image avatar  self-end">
                       <div className="w-12 h-12 rounded-full">
                         <img
-                          alt="User avatar"
+                          alt="User avatar "
                           src={
                             isMe
                               ? user.profilePicture

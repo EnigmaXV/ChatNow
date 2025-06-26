@@ -3,6 +3,7 @@ const { StatusCodes } = require("http-status-codes");
 const cloudinary = require("cloudinary").v2;
 const User = require("../models/userModel");
 const fs = require("fs");
+const { getReceiverSocketId, io } = require("../utils/socket");
 
 const sendMessage = async (req, res) => {
   try {
@@ -33,6 +34,20 @@ const sendMessage = async (req, res) => {
         updatedAt: message.updatedAt,
       },
     });
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("newMessage", {
+        message: {
+          id: message._id,
+          sender: message.sender,
+          receiver: message.receiver,
+          content: message.content,
+          image: message.image,
+          createdAt: message.createdAt,
+          updatedAt: message.updatedAt,
+        },
+      });
+    }
   } catch (err) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: err.message });
   }

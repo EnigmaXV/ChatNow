@@ -1,4 +1,3 @@
-import React from "react";
 import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "../store/useAuthStore";
 import { LogOut, MessageCircleHeart } from "lucide-react";
@@ -6,9 +5,11 @@ import img from "../assets/small-user-pic.png";
 import ThemeController from "./ThemeController";
 
 const Navbar = () => {
-  const { isAuthenticated, logout, user } = useAuthStore();
+  const { isAuthenticated, logout, user, onlineUsers } = useAuthStore();
   const navigate = useNavigate();
   const avatar = user?.profilePicture || img;
+
+  console.log("Online users:", onlineUsers);
 
   const handleLogout = async () => {
     try {
