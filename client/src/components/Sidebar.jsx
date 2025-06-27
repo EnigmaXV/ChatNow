@@ -1,6 +1,8 @@
 import React from "react";
 import userPic from "../assets/small-user-pic.png";
 import { useAuthStore } from "../store/useAuthStore";
+import { useState } from "react";
+import { Target } from "lucide-react";
 
 const USERS = [
   { name: "Jane Doe", status: "Offline", avatar: userPic },
@@ -13,17 +15,29 @@ const USERS = [
 
 const Sidebar = ({ users, selectedUser, onSetSelectedUser }) => {
   const contacts = users.length > 0 ? users : USERS;
+  const [filterUsers, setFilterUsers] = useState(false);
+
   const { onlineUsers } = useAuthStore();
+
+  const displayedUsers = filterUsers
+    ? contacts.filter((user) => onlineUsers.includes(user._id))
+    : contacts;
+
   return (
     <div className="w-1/3 border-r border-base-300 p-4 flex flex-col">
       <h2 className="text-lg font-semibold mb-2">Contacts</h2>
       <label className="label cursor-pointer text-sm text-base-content/60">
-        <input type="checkbox" className="checkbox checkbox-xs mr-2" disabled />
-        Show online only (0 online)
+        <input
+          type="checkbox"
+          className="checkbox checkbox-xs mr-2"
+          checked={filterUsers}
+          onChange={(e) => setFilterUsers(e.target.checked)}
+        />
+        Show online only ({onlineUsers.length - 1} online)
       </label>
 
       <ul className="mt-4 space-y-3 overflow-y-auto pr-1 flex-1">
-        {contacts.map((c, idx) => (
+        {displayedUsers.map((c, idx) => (
           <li
             key={idx}
             className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer ${
