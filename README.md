@@ -1,6 +1,6 @@
 # ChatNow
 
-**ChatNow** is a modern, full-stack real-time chat application that allows users to register, log in, and exchange messages (including images) with other users. It features live online status, profile management, and a beautiful, themeable UI. Built for learning and productivity, ChatNow demonstrates best practices in React, Node.js, and real-time web technologies.
+**ChatNow** is a modern, full-stack real-time chat application that allows users to register, log in, and exchange messages (including images) with other users. It features live online status, profile management, and a beautiful, themeable UI. 
 
 ## Frontend
 
