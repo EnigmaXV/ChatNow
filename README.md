@@ -64,8 +64,6 @@
 
 Be sure to create a `.env` file in the `backend/` directory with these variables
 
-> **Note:**
->
 > [!NOTE]
 > The frontend does not require any environment variables by default. All API requests are proxied to the backend via Vite’s dev server configuration.
 
